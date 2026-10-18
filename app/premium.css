@@ -221,25 +221,29 @@ footer { background: #ebe3d7; }
 .offer-image video { display: block; width: 100%; height: 100%; object-fit: cover; filter: saturate(.85) brightness(.88); }
 
 /* 3D gallery carousel */
-.gallery3d { position: relative; height: 380vh; }
-.gallery3d-sticky { position: sticky; top: 0; height: 100svh; overflow: hidden; display: flex; flex-direction: column; padding: 110px clamp(24px, 6vw, 110px) 40px; }
+.gallery3d { position: relative; overflow: hidden; overflow: clip; padding: clamp(90px, 9vw, 145px) clamp(24px, 6vw, 110px) clamp(70px, 7vw, 110px); }
 .gallery3d .gallery-top { width: 100%; max-width: 1500px; margin: 0 auto 10px; }
 .gallery3d-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 14px; }
-.gallery3d-meta > span { color: var(--brown); font-size: 11px; font-weight: 700; letter-spacing: .2em; }
-.gallery3d-stage { position: relative; flex: 1; perspective: 1300px; }
+.gallery3d-stage { position: relative; height: min(68vh, 600px); min-height: 440px; perspective: 1300px; cursor: grab; touch-action: pan-y; user-select: none; outline: none; }
+.gallery3d-stage:active { cursor: grabbing; }
+.gallery3d-controls { display: flex; align-items: center; gap: 10px; }
+.gallery3d-controls > span { margin-right: 8px; color: var(--brown); font-size: 11px; font-weight: 700; letter-spacing: .2em; }
+.gallery3d-controls button { display: grid; place-items: center; width: 48px; height: 48px; border: 1px solid #aaae9f; border-radius: 50%; background: transparent; color: var(--deep); cursor: pointer; font-size: 22px; transition: background .2s, color .2s; }
+.gallery3d-controls button:hover:not(:disabled) { background: var(--deep); color: #fff; }
+.gallery3d-controls button:disabled { opacity: .32; cursor: default; }
+.gallery3d-card { cursor: pointer; }
 .gallery3d-track { position: absolute; inset: 0; transform-style: preserve-3d; }
 .gallery3d-card { position: absolute; left: 50%; top: 50%; margin: 0; width: min(25vw, 330px); aspect-ratio: 3 / 4; padding: 8px; background: #c4a574; box-shadow: 0 40px 80px -30px rgba(12,47,39,.55); will-change: transform, opacity; }
 .gallery3d-card img, .gallery3d-card video { display: block; width: 100%; height: 100%; object-fit: cover; }
 @media(max-width: 680px) {
-  .gallery3d { height: 340vh; }
-  .gallery3d-sticky { padding: 90px 24px 30px; }
+  .gallery3d { padding: 82px 24px 60px; }
+  .gallery3d-stage { height: 470px; min-height: 0; }
+  .gallery3d-controls button { width: 39px; height: 39px; font-size: 18px; }
   .gallery3d-meta { align-items: flex-start; margin-top: 14px; }
   .gallery3d-card { width: 62vw; padding: 6px; }
 }
 @media(prefers-reduced-motion: reduce) {
-  .gallery3d { height: auto; }
-  .gallery3d-sticky { position: relative; height: auto; }
-  .gallery3d-stage { flex: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; perspective: none; }
+  .gallery3d-stage { height: auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; perspective: none; }
   .gallery3d-track { position: static; display: contents; }
   .gallery3d-card { position: static; width: auto; transform: none !important; opacity: 1 !important; }
 }
