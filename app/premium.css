@@ -139,6 +139,7 @@ footer { background: #ebe3d7; }
   .hero-signature { left: 24px; right: 24px; padding: 18px 0 29px; font-size: 8px; }
   .hero-signature span:last-child { display: none; }
   .section { padding: 82px 24px; }
+  .what.section { padding-top: 108px; }
   .intro { gap: 50px; }
   .intro-image { width: 100%; }
   .intro-image img { height: 420px; }
