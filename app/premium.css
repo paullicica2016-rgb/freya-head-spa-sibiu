@@ -247,6 +247,49 @@ footer { background: #ebe3d7; }
 .gallery3d h2 em { color: var(--brown); }
 @media(max-width: 680px) { .gallery3d h2 { font-size: clamp(38px, 10vw, 50px); } }
 
+/* The ritual becomes visible as a calm, scroll-led sequence rather than a text-only list. */
+.experience { align-items: start; grid-template-columns: minmax(240px, .62fr) minmax(0, 1.38fr); }
+.experience-copy { position: sticky; top: 120px; }
+.experience-copy > p:not(.eyebrow) { max-width: 250px; margin: 24px 0 0; color: #607069; font-size: 14px; line-height: 1.65; }
+.experience-sequence { display: grid; grid-template-columns: minmax(220px, .82fr) minmax(260px, 1fr); gap: clamp(28px, 5vw, 86px); }
+.experience-visual { position: sticky; z-index: 2; top: 102px; height: min(65svh, 590px); }
+.experience-media { position: relative; height: 100%; overflow: hidden; background: var(--deep); animation: experience-media-in .55s ease both; }
+.experience-media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(8, 34, 28, .7), transparent 48%); pointer-events: none; }
+.experience-media img, .experience-media video { display: block; width: 100%; height: 100%; object-fit: cover; }
+.experience-media > div { position: absolute; z-index: 1; left: 22px; right: 22px; bottom: 21px; display: flex; flex-direction: column; gap: 7px; color: #fff; }
+.experience-media span, .experience-step-label { margin: 0; color: #dfc89f; font-size: 9px; font-weight: 700; letter-spacing: .17em; text-transform: uppercase; }
+.experience-media strong { font: 400 27px/1 Georgia, serif; }
+.experience-steps { border-top: 1px solid #c8beb2; }
+.experience-steps article { display: grid; grid-template-columns: 40px 1fr; gap: 17px; min-height: 37vh; align-content: center; padding: 35px 0; border-bottom: 1px solid #c8beb2; opacity: .42; transition: opacity .35s ease, transform .35s ease; }
+.experience-steps article > span { color: var(--gold); font-size: 11px; letter-spacing: .12em; }
+.experience-steps article.is-active { opacity: 1; transform: translateX(8px); }
+.experience-steps h3 { max-width: 330px; margin: 10px 0 13px; color: var(--deep); font: 400 clamp(25px, 2.25vw, 34px)/1.1 Georgia, serif; letter-spacing: -.035em; }
+.experience-steps div > p:last-child { max-width: 320px; margin: 0; color: #607069; font-size: 13px; line-height: 1.7; }
+.gallery3d-caption { max-width: 190px; color: var(--deep); }
+.gallery3d-caption strong { display: block; font: 400 20px/1.1 Georgia, serif; }
+.gallery3d-caption p { margin: 5px 0 0; color: #607069; font-size: 11px; line-height: 1.5; }
+.gallery3d-hint { color: var(--brown) !important; font-size: 9px !important; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+@keyframes experience-media-in { from { opacity: 0; transform: scale(1.025); } to { opacity: 1; transform: scale(1); } }
+@media(max-width: 900px) {
+  .experience { grid-template-columns: 1fr; }
+  .experience-copy { position: static; max-width: 520px; }
+  .experience-sequence { grid-template-columns: minmax(210px, .8fr) 1fr; margin-top: 10px; }
+}
+@media(max-width: 680px) {
+  .experience-copy { margin-bottom: 38px; }
+  .experience-sequence { display: block; }
+  .experience-visual { top: 73px; height: 51svh; margin: 0 -22px 0; }
+  .experience-media > div { left: 22px; bottom: 18px; }
+  .experience-steps { margin-top: 28px; }
+  .experience-steps article { min-height: auto; padding: 27px 0; }
+  .experience-steps article.is-active { transform: translateX(4px); }
+  .gallery3d-caption { max-width: 240px; }
+}
+@media(prefers-reduced-motion: reduce) {
+  .experience-media { animation: none; }
+  .experience-steps article { transition: none; }
+}
+
 
 /* "Din salon" films + Google reviews carousel (from the Codex version) */
 .ritual-film { display: grid; grid-template-columns: minmax(260px, .65fr) minmax(0, 1.35fr); gap: clamp(45px, 7vw, 110px); align-items: center; background: #173b32; color: #fff; }

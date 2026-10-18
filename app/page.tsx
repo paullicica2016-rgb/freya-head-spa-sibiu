@@ -7,6 +7,10 @@ import DepthEffects from "./depth-effects";
 
 const phone = "0742969279";
 const whatsapp = `https://wa.me/40${phone.slice(1)}?text=${encodeURIComponent("Bună! Am văzut website-ul Freya Head Spa și aș dori să fac o programare. 🌿")}`;
+const bookingWhatsapp = (ritual: string, duration?: string, price?: string) => {
+  const details = [ritual, duration, price].filter(Boolean).join(" · ");
+  return `https://wa.me/40${phone.slice(1)}?text=${encodeURIComponent(`Bună! Aș dori o programare pentru ${details}. 🌿`)}`;
+};
 const mainServices = [
   { title: "Head Spa", time: "40 minute", price: "150 lei", text: "Masaj capilar, gât și umeri, infuzie, spălat, hidratare și uscat.", image: "/images/head-spa-waterfall-detail.jpeg" },
   { title: "Head Spa Glow", time: "60 minute", price: "200 lei", badge: "Experiență completă", text: "Masaj facial, capilar, gât și umeri, infuzie, spălat, hidratare și uscat.", image: "/images/freya-ritual.jpeg" },
@@ -27,7 +31,14 @@ const reviews = [
   { name: "Larisa Amzoiu", initials: "LA", quote: "Masajul scalpului ... a fost pur rasfat pt mine", url: "https://maps.app.goo.gl/rjznXuX5Juvb4k3PA", avatar: "https://lh3.googleusercontent.com/a-/ALV-UjUAI1LhsCnjjVQRx0FRaiUg3KezOjrpZQ_M1ovbhmraz6lXsHA=w45-h45-p-rp-mo-br100" },
   { name: "Iulia-Denisa Diac", initials: "ID", quote: "Profesionalism, grijă și răsfăț la superlativ!", url: "https://maps.app.goo.gl/KEz8JwRCadEFLSW66", avatar: "https://lh3.googleusercontent.com/a-/ALV-UjVlx7F-lOU1yye7oXITqAo0X-FcaI4b2HpY80TN7PwSEYL7jGA=w45-h45-p-rp-mo-ba12-br100" },
 ];
-const steps = ["Te așezi și uiți de grabă.", "Descoperim ce are nevoie scalpul și părul tău.", "Începe ritualul de curățare și îngrijire.", "Masaj, abur și momente de relaxare.", "Părul este hidratat, spălat și uscat.", "Pleci mai relaxată decât ai venit."];
+const experienceMoments = [
+  { title: "Te așezi și uiți de grabă.", label: "Sosirea", copy: "Începe cu un moment în care lași ritmul de afară la ușă.", src: "/images/freya-ritual.jpeg", video: false },
+  { title: "Descoperim ce are nevoie scalpul și părul tău.", label: "Alegerea", copy: "Privim împreună de ce are nevoie părul tău, fără grabă.", src: "/images/head-spa-waterfall-detail.jpeg", video: false },
+  { title: "Începe ritualul de curățare și îngrijire.", label: "Îngrijirea", copy: "Apa, aburul și produsele potrivite pregătesc scalpul pentru relaxare.", src: "/videos/head-spa-waterfall.mp4", video: true },
+  { title: "Masaj, abur și momente de relaxare.", label: "Relaxarea", copy: "Mâinile, căldura și apa transformă îngrijirea într-o pauză adevărată.", src: "/videos/freya-massage.mp4", video: true },
+  { title: "Părul este hidratat, spălat și uscat.", label: "Finalul", copy: "Totul se așază în ritmul tău, cu atenție până la ultimul detaliu.", src: "/images/freya-paturi-abur.jpeg", video: false },
+  { title: "Pleci mai relaxată decât ai venit.", label: "Pauza rămâne", copy: "Cu scalpul îngrijit, părul proaspăt și mai mult spațiu pentru tine.", src: "/images/head-spa-waterfall-wide.jpeg", video: false },
+] as const;
 const faqs = [
   ["Ce este Head Spa?", "Un ritual care combină îngrijirea scalpului și părului cu tehnici de masaj, hidratare și relaxare."],
   ["Cât durează o ședință?", "În funcție de ritual: 30, 40 sau 60 de minute. Durata fiecărei experiențe este indicată în lista de servicii."],
@@ -38,6 +49,38 @@ const faqs = [
 ];
 
 function LeafMark() { return <span className="leaf-mark" aria-hidden="true">✦</span>; }
+
+function ExperienceSequence() {
+  const [active, setActive] = useState(0);
+  const stepsRef = useRef<(HTMLElement | null)[]>([]);
+  const moment = experienceMoments[active];
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (visible) setActive(Number((visible.target as HTMLElement).dataset.step));
+    }, { rootMargin: "-30% 0px -42% 0px", threshold: [0, 0.35, 0.7] });
+    stepsRef.current.forEach((step) => step && observer.observe(step));
+    return () => observer.disconnect();
+  }, []);
+
+  return <section className="experience section" id="experienta">
+    <div className="experience-copy experience-title"><p className="eyebrow">DINCOLO DE GRABĂ</p><h2>Cum arată o<br /><em>experiență Freya</em></h2><p>Derulează prin ritual, pas cu pas.</p></div>
+    <div className="experience-sequence">
+      <div className="experience-visual" aria-live="polite">
+        <div className="experience-media" key={moment.src}>
+          {moment.video ? <video src={moment.src} muted autoPlay loop playsInline preload="metadata" aria-label={moment.title} /> : <img src={moment.src} alt={moment.title} loading="lazy" />}
+          <div><span>{String(active + 1).padStart(2, "0")} / {String(experienceMoments.length).padStart(2, "0")}</span><strong>{moment.label}</strong></div>
+        </div>
+      </div>
+      <div className="experience-steps">
+        {experienceMoments.map((item, index) => <article className={active === index ? "is-active" : ""} data-step={index} key={item.title} ref={(element) => { stepsRef.current[index] = element; }}>
+          <span>{String(index + 1).padStart(2, "0")}</span><div><p className="experience-step-label">{item.label}</p><h3>{item.title}</h3><p>{item.copy}</p></div>
+        </article>)}
+      </div>
+    </div>
+  </section>;
+}
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -76,13 +119,13 @@ export default function Home() {
 
     <section className="what section section-tint"><div className="section-heading centered reveal"><p className="eyebrow">UN RITUAL CU SENS</p><h2>Ce este <em>Head Spa?</em></h2><p>Un ritual care combină îngrijirea scalpului și părului cu tehnici de masaj, hidratare și relaxare.</p></div><div className="benefits reveal"><div><b>01</b><h3>Relaxare<br />profundă</h3></div><div><b>02</b><h3>Curățarea<br />scalpului</h3></div><div><b>03</b><h3>Hidratarea părului<br />și scalpului</h3></div><div><b>04</b><h3>Relaxarea capului,<br />gâtului și umerilor</h3></div></div></section>
 
-    <section className="services section" id="servicii"><div className="section-heading reveal"><p className="eyebrow">RITUALURI</p><h2>Alege timpul<br /><em>care îți aparține.</em></h2></div><div className="service-grid">{mainServices.map((service, index) => <article className={`service-card reveal service-${index + 1}`} key={service.title}><div className="service-image"><img src={service.image} alt={service.title} loading="lazy" />{service.badge && <span className="service-badge">{service.badge}</span>}</div><div className="service-info"><div className="service-top"><div><p className="service-time">{service.time}</p><h3>{service.title}</h3></div><strong>{service.price}</strong></div><p>{service.text}</p><a className="text-link" href={whatsapp}>Alege acest ritual <span>↗</span></a></div></article>)}</div></section>
+    <section className="services section" id="servicii"><div className="section-heading reveal"><p className="eyebrow">RITUALURI</p><h2>Alege timpul<br /><em>care îți aparține.</em></h2></div><div className="service-grid">{mainServices.map((service, index) => <article className={`service-card reveal service-${index + 1}`} key={service.title}><div className="service-image"><img src={service.image} alt={service.title} loading="lazy" />{service.badge && <span className="service-badge">{service.badge}</span>}</div><div className="service-info"><div className="service-top"><div><p className="service-time">{service.time}</p><h3>{service.title}</h3></div><strong>{service.price}</strong></div><p>{service.text}</p><a className="text-link" href={bookingWhatsapp(service.title, service.time, service.price)}>Alege acest ritual <span>↗</span></a></div></article>)}</div></section>
 
     <section className="treatments section section-forest"><div className="treatments-head reveal"><p className="eyebrow light">ÎNGRIJIRE PENTRU SCALP</p><h2>De ce are nevoie<br /><em>scalpul tău?</em></h2><p>O alegere atentă, potrivită momentului în care ești.</p></div><div className="treatment-list reveal">{treatments.map((t, index) => <article key={t.name}><span>0{index + 1}</span><div><h3>{t.name}</h3><p>Pentru: <em>{t.for}</em></p></div><p>{t.body}</p><strong>100 lei</strong></article>)}</div></section>
 
-    <section className="offer section"><div className="offer-image"><video src="/videos/freya-massage.mp4" poster="/images/freya-ritual.jpeg" autoPlay muted loop playsInline aria-label="Masaj capilar la Freya" /></div><div className="offer-copy reveal"><p className="eyebrow">PACHET PROMO</p><p className="small-title">TIMP PENTRU TINE</p><h2>Ritualul<br /><em>complet</em></h2><p className="offer-detail">Tratament scalp <b>+</b> ședință Head Spa</p><div className="price-line"><strong>200 lei</strong><a className="button button-green" href={whatsapp}>Vreau această experiență <span>↗</span></a></div></div></section>
+    <section className="offer section"><div className="offer-image"><video src="/videos/freya-massage.mp4" poster="/images/freya-ritual.jpeg" autoPlay muted loop playsInline aria-label="Masaj capilar la Freya" /></div><div className="offer-copy reveal"><p className="eyebrow">PACHET PROMO</p><p className="small-title">TIMP PENTRU TINE</p><h2>Ritualul<br /><em>complet</em></h2><p className="offer-detail">Tratament scalp <b>+</b> ședință Head Spa</p><div className="price-line"><strong>200 lei</strong><a className="button button-green" href={bookingWhatsapp("Ritualul complet", "tratament scalp + ședință Head Spa", "200 lei")}>Vreau această experiență <span>↗</span></a></div></div></section>
 
-    <section className="experience section" id="experienta"><div className="experience-title reveal"><p className="eyebrow">DINCOLO DE GRABĂ</p><h2>Cum arată o<br /><em>experiență Freya</em></h2></div><div className="steps">{steps.map((step, index) => <article className="reveal" key={step}><span>0{index + 1}</span><p>{step}</p></article>)}</div></section>
+    <ExperienceSequence />
 
     <section className="ritual-film section" id="ritual" aria-labelledby="ritual-film-title"><div className="ritual-film-heading reveal"><p className="eyebrow light">DIN SALON</p><h2 id="ritual-film-title">Ritualul,<br /><em>așa cum este.</em></h2><p>Vezi infuzia de apă și masajul, filmate la Freya. Clipurile pornesc doar când alegi tu.</p><a className="text-link light-link" href="https://www.instagram.com/freya_headspasibiu/" target="_blank" rel="noreferrer">Mai multe imagini pe Instagram <span>↗</span></a></div><div className="ritual-film-grid"><figure className="ritual-film-card reveal"><video controls playsInline preload="none" poster="/images/head-spa-waterfall-detail.jpeg" aria-label="Ritual Head Spa cu infuzie de apă"><source src="/videos/head-spa-waterfall.mp4" type="video/mp4" />Browserul tău nu poate reda acest videoclip.</video><figcaption><span>01 / INFUZIE</span><strong>Infuzia de apă</strong></figcaption></figure><figure className="ritual-film-card reveal"><video controls playsInline preload="none" poster="/images/freya-ritual.jpeg" aria-label="Masaj în timpul ritualului Freya"><source src="/videos/freya-massage.mp4" type="video/mp4" />Browserul tău nu poate reda acest videoclip.</video><figcaption><span>02 / MASAJ</span><strong>Masajul capilar</strong></figcaption></figure></div></section>
 

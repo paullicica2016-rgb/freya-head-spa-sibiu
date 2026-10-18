@@ -1,24 +1,25 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const clamp = (v: number, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 
 // Real photos and footage on a curved 3D carousel; vertical scroll turns it.
 const ITEMS = [
-  { src: "/images/head-spa-waterfall-detail.jpeg", alt: "Infuzie de apă în ritualul Head Spa" },
-  { src: "/videos/freya-massage.mp4", video: true, alt: "Masaj capilar la Freya" },
-  { src: "/images/freya-ritual.jpeg", alt: "Ritual de îngrijire Freya" },
-  { src: "/images/freya-paturi-abur.jpeg", alt: "Paturile de head spa cu abur" },
-  { src: "/videos/head-spa-waterfall.mp4", video: true, alt: "Cascada de apă caldă prin arcul auriu" },
-  { src: "/images/freya-cascada-apa.jpeg", alt: "Apă caldă pe păr sub arcul auriu" },
-  { src: "/images/head-spa-waterfall-wide.jpeg", alt: "Ritual Head Spa cu infuzie" },
+  { src: "/images/head-spa-waterfall-detail.jpeg", alt: "Infuzie de apă în ritualul Head Spa", title: "Infuzia de apă", copy: "Căldură, apă și timp doar pentru tine." },
+  { src: "/videos/freya-massage.mp4", video: true, alt: "Masaj capilar la Freya", title: "Masajul capilar", copy: "Mișcări lente care eliberează tensiunea." },
+  { src: "/images/freya-ritual.jpeg", alt: "Ritual de îngrijire Freya", title: "Ritualul Freya", copy: "Fiecare gest are locul și ritmul lui." },
+  { src: "/images/freya-paturi-abur.jpeg", alt: "Paturile de head spa cu abur", title: "Locul tău", copy: "Un spațiu pregătit pentru liniște." },
+  { src: "/videos/head-spa-waterfall.mp4", video: true, alt: "Cascada de apă caldă prin arcul auriu", title: "Cascada de apă", copy: "Un moment care schimbă tot ritmul." },
+  { src: "/images/freya-cascada-apa.jpeg", alt: "Apă caldă pe păr sub arcul auriu", title: "Detaliile", copy: "Îngrijirea se simte în fiecare etapă." },
+  { src: "/images/head-spa-waterfall-wide.jpeg", alt: "Ritual Head Spa cu infuzie", title: "Pauza ta", copy: "Un ritual de care îți vei aminti." },
 ];
 
 export default function Gallery3D() {
   const section = useRef<HTMLElement>(null);
   const track = useRef<HTMLDivElement>(null);
   const count = useRef<HTMLSpanElement>(null);
+  const [active, setActive] = useState(0);
 
   useEffect(() => {
     const cards = [...track.current!.children] as HTMLElement[];
@@ -41,7 +42,7 @@ export default function Gallery3D() {
         if (v) { if (a < 1.6 && v.paused) v.play().catch(() => {}); else if (a >= 1.6 && !v.paused) v.pause(); }
       });
       const idx = Math.round(cur);
-      if (idx !== last) { last = idx; count.current!.textContent = `${String(idx + 1).padStart(2, "0")} / ${String(ITEMS.length).padStart(2, "0")}`; }
+      if (idx !== last) { last = idx; count.current!.textContent = `${String(idx + 1).padStart(2, "0")} / ${String(ITEMS.length).padStart(2, "0")}`; setActive(idx); }
     };
     addEventListener("scroll", tick, { passive: true }); addEventListener("resize", tick);
     tick(); loop();
@@ -52,7 +53,7 @@ export default function Gallery3D() {
     <div className="gallery3d-sticky">
       <div className="gallery-top">
         <div><p className="eyebrow">FREYA, ÎN IMAGINI</p><h2>Un spațiu pentru<br /><em>liniștea ta.</em></h2></div>
-        <div className="gallery3d-meta"><span ref={count}>01 / 07</span><a className="text-link" href="https://www.instagram.com/freya_headspasibiu/" target="_blank" rel="noreferrer">Vezi mai multe pe Instagram <span>↗</span></a></div>
+        <div className="gallery3d-meta"><span ref={count}>01 / 07</span><div className="gallery3d-caption" aria-live="polite"><strong>{ITEMS[active].title}</strong><p>{ITEMS[active].copy}</p></div><span className="gallery3d-hint">Derulează pentru a descoperi ↓</span><a className="text-link" href="https://www.instagram.com/freya_headspasibiu/" target="_blank" rel="noreferrer">Vezi mai multe pe Instagram <span>↗</span></a></div>
       </div>
       <div className="gallery3d-stage">
         <div className="gallery3d-track" ref={track}>
