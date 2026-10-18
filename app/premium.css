@@ -220,34 +220,6 @@ footer { background: #ebe3d7; }
 .offer-image { overflow: hidden; }
 .offer-image video { display: block; width: 100%; height: 100%; object-fit: cover; filter: saturate(.85) brightness(.88); }
 
-/* 3D gallery carousel */
-.gallery3d { position: relative; height: 380vh; }
-.gallery3d-sticky { position: sticky; top: 0; height: 100svh; overflow: hidden; display: flex; flex-direction: column; padding: 110px clamp(24px, 6vw, 110px) 40px; }
-.gallery3d .gallery-top { width: 100%; max-width: 1500px; margin: 0 auto 10px; }
-.gallery3d-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 14px; }
-.gallery3d-meta > span { color: var(--brown); font-size: 11px; font-weight: 700; letter-spacing: .2em; }
-.gallery3d-stage { position: relative; flex: 1; perspective: 1300px; }
-.gallery3d-track { position: absolute; inset: 0; transform-style: preserve-3d; }
-.gallery3d-card { position: absolute; left: 50%; top: 50%; margin: 0; width: min(25vw, 330px); aspect-ratio: 3 / 4; padding: 8px; background: #c4a574; box-shadow: 0 40px 80px -30px rgba(12,47,39,.55); will-change: transform, opacity; }
-.gallery3d-card img, .gallery3d-card video { display: block; width: 100%; height: 100%; object-fit: cover; }
-@media(max-width: 680px) {
-  .gallery3d { height: 340vh; }
-  .gallery3d-sticky { padding: 90px 24px 124px; }
-  .gallery3d-meta { align-items: flex-start; margin-top: 14px; }
-  .gallery3d-card { width: 62vw; padding: 6px; }
-  .gallery3d-meta .text-link { display: none; }
-}
-@media(prefers-reduced-motion: reduce) {
-  .gallery3d { height: auto; }
-  .gallery3d-sticky { position: relative; height: auto; }
-  .gallery3d-stage { flex: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; perspective: none; }
-  .gallery3d-track { position: static; display: contents; }
-  .gallery3d-card { position: static; width: auto; transform: none !important; opacity: 1 !important; }
-}
-.gallery3d h2 { font-family: Georgia, "Times New Roman", serif; font-weight: 400; font-size: clamp(42px, 4.4vw, 76px); line-height: .98; letter-spacing: -.055em; margin: 0; color: var(--deep); }
-.gallery3d h2 em { color: var(--brown); }
-@media(max-width: 680px) { .gallery3d h2 { font-size: clamp(38px, 10vw, 50px); } }
-
 /* Every ritual moment is a stable card: no scroll-driven image swaps or overlapping media. */
 .experience { align-items: start; grid-template-columns: minmax(240px, .62fr) minmax(0, 1.38fr); }
 .experience-copy > p:not(.eyebrow) { max-width: 250px; margin: 24px 0 0; color: #607069; font-size: 14px; line-height: 1.65; }
@@ -261,10 +233,6 @@ footer { background: #ebe3d7; }
 .experience-step-label { margin-top: 8px; color: #7a806f; }
 .experience-step h3 { min-height: 2.2em; margin: 11px 0 13px; color: var(--deep); font: 400 clamp(24px, 2.15vw, 33px)/1.1 Georgia, serif; letter-spacing: -.035em; }
 .experience-step-copy > p:last-child { min-height: 3.4em; margin: 0; color: #607069; font-size: 13px; line-height: 1.7; }
-.gallery3d-caption { max-width: 190px; color: var(--deep); }
-.gallery3d-caption strong { display: block; font: 400 20px/1.1 Georgia, serif; }
-.gallery3d-caption p { margin: 5px 0 0; color: #607069; font-size: 11px; line-height: 1.5; }
-.gallery3d-hint { color: var(--brown) !important; font-size: 9px !important; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
 @media(max-width: 900px) {
   .experience { grid-template-columns: 1fr; }
   .experience-copy { max-width: 520px; margin-bottom: 10px; }
@@ -275,7 +243,6 @@ footer { background: #ebe3d7; }
   .experience-step-media { height: 250px; }
   .experience-step h3 { min-height: 0; }
   .experience-step-copy > p:last-child { min-height: 0; }
-  .gallery3d-caption { max-width: 240px; }
 }
 
 

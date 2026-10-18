@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import ScrollHero from "./scroll-hero";
-import Gallery3D from "./gallery-3d";
 import DepthEffects from "./depth-effects";
 
 const phone = "0742969279";
@@ -86,7 +85,7 @@ export default function Home() {
     <header className={`site-header ${scrolled ? "is-scrolled" : ""}`}>
       <a className="brand" href="#acasa" onClick={close}><LeafMark /><span>FREYA</span><small>HEAD SPA SIBIU</small></a>
       <nav className={menuOpen ? "nav-open" : ""} aria-label="Navigație principală">
-        <a href="#experienta" onClick={close}>Experiența Freya</a><a href="#servicii" onClick={close}>Servicii</a><a href="#galerie" onClick={close}>Galerie</a><a href="#despre" onClick={close}>Despre</a><a href="#contact" onClick={close}>Contact</a><a className="mobile-nav-cta" href={whatsapp} onClick={close}>Programează-te</a>
+        <a href="#experienta" onClick={close}>Experiența Freya</a><a href="#servicii" onClick={close}>Servicii</a><a href="#despre" onClick={close}>Despre</a><a href="#contact" onClick={close}>Contact</a><a className="mobile-nav-cta" href={whatsapp} onClick={close}>Programează-te</a>
       </nav>
       <a className="header-cta" href={whatsapp}>Programează-te <span>↗</span></a>
       <button className="menu-button" aria-label={menuOpen ? "Închide meniul" : "Deschide meniul"} aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}><i /><i /></button>
@@ -108,8 +107,6 @@ export default function Home() {
     <ExperienceSequence />
 
     <section className="ritual-film section" id="ritual" aria-labelledby="ritual-film-title"><div className="ritual-film-heading reveal"><p className="eyebrow light">DIN SALON</p><h2 id="ritual-film-title">Ritualul,<br /><em>așa cum este.</em></h2><p>Vezi infuzia de apă și masajul, filmate la Freya. Clipurile pornesc doar când alegi tu.</p><a className="text-link light-link" href="https://www.instagram.com/freya_headspasibiu/" target="_blank" rel="noreferrer">Mai multe imagini pe Instagram <span>↗</span></a></div><div className="ritual-film-grid"><figure className="ritual-film-card reveal"><video controls playsInline preload="none" poster="/images/head-spa-waterfall-detail.jpeg" aria-label="Ritual Head Spa cu infuzie de apă"><source src="/videos/head-spa-waterfall.mp4" type="video/mp4" />Browserul tău nu poate reda acest videoclip.</video><figcaption><span>01 / INFUZIE</span><strong>Infuzia de apă</strong></figcaption></figure><figure className="ritual-film-card reveal"><video controls playsInline preload="none" poster="/images/freya-ritual.jpeg" aria-label="Masaj în timpul ritualului Freya"><source src="/videos/freya-massage.mp4" type="video/mp4" />Browserul tău nu poate reda acest videoclip.</video><figcaption><span>02 / MASAJ</span><strong>Masajul capilar</strong></figcaption></figure></div></section>
-
-    <Gallery3D />
 
     <section className="about section" id="despre"><div className="about-visual reveal"><img src="/images/freya-ritual.jpeg" alt="Atmosfera spa Freya" loading="lazy" /><span>F</span></div><div className="about-copy reveal"><p className="eyebrow">DESPRE FREYA</p><h2>Un spațiu creat pentru momentele în care ai nevoie să <em>încetinești.</em></h2><p>Freya Head Spa a fost creat ca un spațiu dedicat relaxării și îngrijirii, unde fiecare experiență este gândită în jurul persoanei și nevoilor sale.</p><div className="about-words"><span>RELAXARE</span><i>•</i><span>ÎNGRIJIRE</span><i>•</i><span>RECONECTARE</span></div></div></section>
 
