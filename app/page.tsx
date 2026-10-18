@@ -51,33 +51,13 @@ const faqs = [
 function LeafMark() { return <span className="leaf-mark" aria-hidden="true">✦</span>; }
 
 function ExperienceSequence() {
-  const [active, setActive] = useState(0);
-  const stepsRef = useRef<(HTMLElement | null)[]>([]);
-  const moment = experienceMoments[active];
-
-  useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-      if (visible) setActive(Number((visible.target as HTMLElement).dataset.step));
-    }, { rootMargin: "-30% 0px -42% 0px", threshold: [0, 0.35, 0.7] });
-    stepsRef.current.forEach((step) => step && observer.observe(step));
-    return () => observer.disconnect();
-  }, []);
-
   return <section className="experience section" id="experienta">
     <div className="experience-copy experience-title"><p className="eyebrow">DINCOLO DE GRABĂ</p><h2>Cum arată o<br /><em>experiență Freya</em></h2><p>Derulează prin ritual, pas cu pas.</p></div>
-    <div className="experience-sequence">
-      <div className="experience-visual" aria-live="polite">
-        <div className="experience-media" key={moment.src}>
-          {moment.video ? <video src={moment.src} muted autoPlay loop playsInline preload="metadata" aria-label={moment.title} /> : <img src={moment.src} alt={moment.title} loading="lazy" />}
-          <div><span>{String(active + 1).padStart(2, "0")} / {String(experienceMoments.length).padStart(2, "0")}</span><strong>{moment.label}</strong></div>
-        </div>
-      </div>
-      <div className="experience-steps">
-        {experienceMoments.map((item, index) => <article className={active === index ? "is-active" : ""} data-step={index} key={item.title} ref={(element) => { stepsRef.current[index] = element; }}>
-          <span>{String(index + 1).padStart(2, "0")}</span><div><p className="experience-step-label">{item.label}</p><h3>{item.title}</h3><p>{item.copy}</p></div>
-        </article>)}
-      </div>
+    <div className="experience-steps">
+      {experienceMoments.map((item, index) => <article className="experience-step" key={item.title}>
+        <div className="experience-step-media">{item.video ? <video src={item.src} muted loop playsInline preload="metadata" aria-label={item.title} /> : <img src={item.src} alt={item.title} loading="lazy" />}</div>
+        <div className="experience-step-copy"><span>{String(index + 1).padStart(2, "0")} / {String(experienceMoments.length).padStart(2, "0")}</span><p className="experience-step-label">{item.label}</p><h3>{item.title}</h3><p>{item.copy}</p></div>
+      </article>)}
     </div>
   </section>;
 }
