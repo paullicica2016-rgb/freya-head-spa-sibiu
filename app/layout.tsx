@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import "./premium.css";
 export const metadata: Metadata = {
-  metadataBase: new URL("https://freya-head-spa-sibiu.paullicica2016.chatgpt.site"),
+  metadataBase: new URL("https://freya-head-spa-sibiu.vercel.app"),
   title: "Freya Head Spa Sibiu | Relaxare & Îngrijirea Scalpului",
   description: "Descoperă Freya Head Spa Sibiu – ritualuri de relaxare, Head Spa, masaje și tratamente pentru îngrijirea scalpului într-o atmosferă creată pentru momentele tale de liniște.",
   alternates: { canonical: "/" }, icons: { icon: "/favicon.svg" },

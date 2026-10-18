@@ -20,4 +20,4 @@ npm run start
 
 Importă repository-ul GitHub `paullicica2016-rgb/freya-head-spa-sibiu` în Vercel. Framework Preset: Next.js; Root Directory: rădăcina repository-ului. Build Command: `npm run build`. Nu sunt necesare variabile de mediu pentru pagina actuală.
 
-Datele de contact, serviciile și prețurile sunt în `app/page.tsx`. URL-ul canonic și sitemapul folosesc momentan adresa de publicare inițială; actualizează-le la domeniul final înainte de indexarea publică.
+Datele de contact, serviciile și prețurile sunt în `app/page.tsx`. URL-ul canonic și sitemapul folosesc https://freya-head-spa-sibiu.vercel.app (în `app/layout.tsx`, `app/sitemap.ts`, `app/robots.ts`); schimbă-le dacă treci pe un domeniu propriu.
