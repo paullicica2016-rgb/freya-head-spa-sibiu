@@ -52,10 +52,10 @@ export default function ScrollHero({ whatsapp }: { whatsapp: string }) {
       // panels
       const loader = new THREE.TextureLoader();
       const videos: HTMLVideoElement[] = [];
-      const panels: { group: InstanceType<typeof THREE.Group>; baseY: number; video?: HTMLVideoElement; z: number }[] = [];
-      const xOff = mobile ? 0.95 : 2.7, H = mobile ? 3.4 : 3.3;
+      const panels: { group: InstanceType<typeof THREE.Group>; baseY: number; video?: HTMLVideoElement; z: number; mats: InstanceType<typeof THREE.MeshBasicMaterial>[] }[] = [];
+      const xOff = mobile ? 0.55 : 1.5, H = mobile ? 3.4 : 3.3;
       MEDIA.forEach((m, i) => {
-        const w = H * m.w / m.h, side = i % 2 === 0 ? 1 : -1;
+        const maxW = mobile ? 2.6 : 3, h0 = Math.min(H, maxW * m.h / m.w), w = h0 * m.w / m.h, side = i % 2 === 0 ? 1 : -1;
         let tex: InstanceType<typeof THREE.Texture>, video: HTMLVideoElement | undefined;
         if (m.video) {
           video = Object.assign(document.createElement("video"), { src: m.src, muted: true, loop: true, playsInline: true, preload: "auto" });
@@ -65,15 +65,15 @@ export default function ScrollHero({ whatsapp }: { whatsapp: string }) {
         } else tex = loader.load(m.src);
         tex.colorSpace = THREE.SRGBColorSpace;
         const group = new THREE.Group();
-        const frame = new THREE.Mesh(new THREE.PlaneGeometry(w + 0.16, H + 0.16), new THREE.MeshBasicMaterial({ color: 0xc4a574 }));
-        const pic = new THREE.Mesh(new THREE.PlaneGeometry(w, H), new THREE.MeshBasicMaterial({ map: tex }));
+        const frame = new THREE.Mesh(new THREE.PlaneGeometry(w + 0.16, h0 + 0.16), new THREE.MeshBasicMaterial({ color: 0xc4a574, transparent: true }));
+        const pic = new THREE.Mesh(new THREE.PlaneGeometry(w, h0), new THREE.MeshBasicMaterial({ map: tex, transparent: true }));
         pic.position.z = 0.01;
         group.add(frame, pic);
         const z = FIRST - i * GAP, baseY = (i % 3 - 1) * 0.25;
         group.position.set(side * xOff, baseY, z);
-        group.rotation.y = -side * (mobile ? 0.18 : 0.32);
+        group.rotation.y = -side * (mobile ? 0.1 : 0.16);
         scene.add(group);
-        panels.push({ group, baseY, video, z });
+        panels.push({ group, baseY, video, z, mats: [frame.material, pic.material] });
       });
       const CAM_END = panels[panels.length - 1].z + 3.2;
 
@@ -137,11 +137,22 @@ export default function ScrollHero({ whatsapp }: { whatsapp: string }) {
         const targetZ = CAM_START + (CAM_END - CAM_START) * progress;
         camZ += (targetZ - camZ) * 0.08;
         sx += (mx - sx) * 0.05; sy += (my - sy) * 0.05;
-        camera.position.set(sx * 0.9, -sy * 0.5, camZ);
-        camera.lookAt(sx * 0.3, 0, camZ - 10);
+        // weave toward the panel currently in front, so it sits near the middle of the screen
+        const fi = Math.max(0, Math.min(panels.length - 1, (FIRST + 3.6 - camZ) / GAP));
+        const i0 = Math.floor(fi), i1 = Math.min(panels.length - 1, i0 + 1), f = fi - i0;
+        const ease = f * f * (3 - 2 * f);
+        const px = panels[i0].group.position.x * (1 - ease) + panels[i1].group.position.x * ease;
+        const intro = 1 - Math.min(1, Math.max(0, (CAM_START - camZ) / 4)); // keep the opening framing while the title is up
+        const weave = px * 0.75 * (1 - intro);
+        camera.position.set(weave + sx * 0.6, -sy * 0.4, camZ);
+        camera.lookAt(weave * 1.1 + sx * 0.2, 0, camZ - 10);
 
         panels.forEach((pn, i) => {
           pn.group.position.y = pn.baseY + Math.sin(t * 0.6 + i) * 0.08;
+          // fade out just before the camera flies through the frame
+          const op = Math.min(1, Math.max(0, (camZ - pn.z - 0.5) / 1.6));
+          pn.mats.forEach(m => { m.opacity = op; });
+          pn.group.visible = op > 0.001;
           if (pn.video) {
             const near = Math.abs(pn.z - camZ) < 16;
             if (near && pn.video.paused) pn.video.play().catch(() => {});
