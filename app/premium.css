@@ -232,9 +232,10 @@ footer { background: #ebe3d7; }
 .gallery3d-card img, .gallery3d-card video { display: block; width: 100%; height: 100%; object-fit: cover; }
 @media(max-width: 680px) {
   .gallery3d { height: 340vh; }
-  .gallery3d-sticky { padding: 90px 24px 30px; }
+  .gallery3d-sticky { padding: 90px 24px 124px; }
   .gallery3d-meta { align-items: flex-start; margin-top: 14px; }
   .gallery3d-card { width: 62vw; padding: 6px; }
+  .gallery3d-meta .text-link { display: none; }
 }
 @media(prefers-reduced-motion: reduce) {
   .gallery3d { height: auto; }

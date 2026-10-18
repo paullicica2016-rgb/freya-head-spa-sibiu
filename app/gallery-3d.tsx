@@ -36,7 +36,9 @@ export default function Gallery3D() {
       cards.forEach((c, i) => {
         const o = i - cur, a = Math.abs(o);
         c.style.transform = `translate(-50%, -50%) translateX(${o * step}px) translateZ(${-a * (narrow ? 160 : 230)}px) rotateY(${clamp(-o * 38, -70, 70)}deg)`;
-        c.style.opacity = clamp(1.25 - a * 0.28, 0, 1).toFixed(3);
+        // Mobile keeps the carousel, but only the current card is visible so partial cards
+        // never read as a duplicated or broken photo.
+        c.style.opacity = narrow ? (a < 0.52 ? "1" : "0") : clamp(1.25 - a * 0.28, 0, 1).toFixed(3);
         c.style.zIndex = String(100 - Math.round(a * 10));
         const v = vids[i];
         if (v) { if (a < 1.6 && v.paused) v.play().catch(() => {}); else if (a >= 1.6 && !v.paused) v.pause(); }
@@ -53,7 +55,7 @@ export default function Gallery3D() {
     <div className="gallery3d-sticky">
       <div className="gallery-top">
         <div><p className="eyebrow">FREYA, ÎN IMAGINI</p><h2>Un spațiu pentru<br /><em>liniștea ta.</em></h2></div>
-        <div className="gallery3d-meta"><span ref={count}>01 / 07</span><div className="gallery3d-caption" aria-live="polite"><strong>{ITEMS[active].title}</strong><p>{ITEMS[active].copy}</p></div><span className="gallery3d-hint">Derulează pentru a descoperi ↓</span><a className="text-link" href="https://www.instagram.com/freya_headspasibiu/" target="_blank" rel="noreferrer">Vezi mai multe pe Instagram <span>↗</span></a></div>
+        <div className="gallery3d-meta"><span ref={count}>01 / 07</span><div className="gallery3d-caption" aria-live="polite"><strong>{ITEMS[active].title}</strong><p>{ITEMS[active].copy}</p></div><span className="gallery3d-hint">{active === ITEMS.length - 1 ? "Ultimul moment din ritual" : "Derulează pentru a descoperi ↓"}</span><a className="text-link" href="https://www.instagram.com/freya_headspasibiu/" target="_blank" rel="noreferrer">Vezi mai multe pe Instagram <span>↗</span></a></div>
       </div>
       <div className="gallery3d-stage">
         <div className="gallery3d-track" ref={track}>
