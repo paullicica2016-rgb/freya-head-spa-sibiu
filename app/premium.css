@@ -246,3 +246,65 @@ footer { background: #ebe3d7; }
 .gallery3d h2 { font-family: Georgia, "Times New Roman", serif; font-weight: 400; font-size: clamp(42px, 4.4vw, 76px); line-height: .98; letter-spacing: -.055em; margin: 0; color: var(--deep); }
 .gallery3d h2 em { color: var(--brown); }
 @media(max-width: 680px) { .gallery3d h2 { font-size: clamp(38px, 10vw, 50px); } }
+
+
+/* "Din salon" films + Google reviews carousel (from the Codex version) */
+.ritual-film { display: grid; grid-template-columns: minmax(260px, .65fr) minmax(0, 1.35fr); gap: clamp(45px, 7vw, 110px); align-items: center; background: #173b32; color: #fff; }
+.ritual-film-heading { max-width: 430px; }
+.ritual-film h2 { margin: 0 0 28px; font: 400 clamp(50px, 5.2vw, 82px)/.98 Georgia, serif; letter-spacing: -.055em; }
+.ritual-film h2 em { color: #dfc89f; }
+.ritual-film-heading > p:not(.eyebrow) { max-width: 340px; color: #d1ddd5; font-size: 15px; line-height: 1.8; }
+.ritual-film-heading .text-link { margin-top: 27px; color: #fff; border-bottom-color: #d8c49f; }
+.ritual-film-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: clamp(14px, 2vw, 30px); }
+.ritual-film-card { margin: 0; }
+.ritual-film-card:nth-child(2) { margin-top: 85px; }
+.ritual-film-card video { display: block; width: 100%; aspect-ratio: 3 / 4; object-fit: cover; background: #0e2821; }
+.ritual-film-card figcaption { display: flex; flex-direction: column; gap: 7px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,.35); margin-top: 16px; }
+.ritual-film-card figcaption span { color: #dec598; font-size: 9px; font-weight: 700; letter-spacing: .17em; }
+.ritual-film-card figcaption strong { font: 400 23px Georgia, serif; }
+
+.reviews { background: #f6f2eb; }
+.reviews-top, .review-grid { max-width: 1400px; margin-left: auto; margin-right: auto; }
+.reviews-top { display: flex; align-items: end; justify-content: space-between; gap: 40px; margin-bottom: 48px; }
+.reviews-top h2 { margin: 0; font: 400 clamp(48px, 5.1vw, 86px)/1 Georgia, serif; letter-spacing: -.055em; }
+.review-actions { display: flex; flex-direction: column; align-items: end; gap: 25px; flex-shrink: 0; }
+.reviews-top .text-link { margin: 0; }
+.review-controls { display: flex; gap: 10px; }
+.review-controls button { display: grid; place-items: center; width: 48px; height: 48px; border: 1px solid #aaae9f; border-radius: 50%; background: transparent; color: var(--deep); cursor: pointer; font-size: 22px; transition: background .2s, color .2s; }
+.review-controls button:hover:not(:disabled) { background: var(--deep); color: #fff; }
+.review-controls button:disabled { opacity: .32; cursor: default; }
+.review-grid { display: flex; gap: 18px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; overscroll-behavior-inline: contain; padding-bottom: 16px; scrollbar-color: #b8ab97 transparent; scrollbar-width: thin; }
+.review-card { display: flex; flex: 0 0 calc((100% - 36px) / 3); flex-direction: column; min-height: 315px; padding: 30px; background: #eae3d8; scroll-snap-align: start; }
+.review-stars { color: #a9854f; font-size: 17px; letter-spacing: .14em; }
+.review-card blockquote { margin: 30px 0 34px; color: var(--deep); font: 400 clamp(24px, 2.2vw, 32px)/1.22 Georgia, serif; letter-spacing: -.025em; }
+.review-bottom { display: flex; align-items: end; justify-content: space-between; gap: 15px; margin-top: auto; padding-top: 18px; border-top: 1px solid #c5b9a7; }
+.review-person { display: flex; align-items: center; gap: 11px; min-width: 0; }
+.review-person strong { font-size: 11px; line-height: 1.35; }
+.review-avatar { position: relative; display: grid; place-items: center; width: 44px; height: 44px; flex: 0 0 44px; overflow: hidden; border-radius: 50%; background: #c9b392; color: var(--deep); font: 700 12px Arial, sans-serif; }
+.review-avatar img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.review-bottom a { flex-shrink: 0; color: var(--deep); font-size: 9px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.review-bottom a span { margin-left: 3px; font-size: 13px; }
+@media(max-width: 1100px) {
+  .ritual-film { grid-template-columns: 1fr; }
+  .ritual-film-heading { max-width: 660px; }
+}
+@media(max-width: 680px) {
+  .ritual-film { gap: 42px; }
+  .ritual-film h2 { font-size: clamp(49px, 11vw, 62px); }
+  .ritual-film-grid { grid-template-columns: 1fr; gap: 45px; }
+  .ritual-film-card:nth-child(2) { margin-top: 0; }
+  .ritual-film-card video { aspect-ratio: 4 / 5; }
+  .reviews-top { display: block; margin-bottom: 35px; }
+  .reviews-top h2 { font-size: clamp(46px, 11vw, 58px); }
+  .review-actions { flex-direction: row; align-items: center; justify-content: space-between; gap: 12px; margin-top: 22px; }
+  .reviews-top .text-link { max-width: 165px; font-size: 9px; }
+  .review-controls { gap: 7px; }
+  .review-controls button { width: 39px; height: 39px; font-size: 18px; }
+  .review-grid { gap: 12px; margin-right: -24px; padding-right: 24px; }
+  .review-card { flex-basis: 82vw; min-height: 280px; padding: 25px; }
+  .review-card blockquote { font-size: 27px; margin: 24px 0; }
+  .review-bottom { align-items: center; }
+}
+@media (min-width: 681px) and (max-width: 1050px) {
+  .review-card { flex-basis: calc((100% - 18px) / 2); }
+}
