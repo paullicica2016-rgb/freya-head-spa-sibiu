@@ -31,12 +31,12 @@ const reviews = [
   { name: "Iulia-Denisa Diac", initials: "ID", quote: "Profesionalism, grijă și răsfăț la superlativ!", url: "https://maps.app.goo.gl/KEz8JwRCadEFLSW66", avatar: "https://lh3.googleusercontent.com/a-/ALV-UjVlx7F-lOU1yye7oXITqAo0X-FcaI4b2HpY80TN7PwSEYL7jGA=w45-h45-p-rp-mo-ba12-br100" },
 ];
 const experienceMoments = [
-  { title: "Te așezi și uiți de grabă.", label: "Sosirea", copy: "Începe cu un moment în care lași ritmul de afară la ușă.", src: "/images/freya-ritual.jpeg", video: false },
-  { title: "Descoperim ce are nevoie scalpul și părul tău.", label: "Alegerea", copy: "Privim împreună de ce are nevoie părul tău, fără grabă.", src: "/images/head-spa-waterfall-detail.jpeg", video: false },
-  { title: "Începe ritualul de curățare și îngrijire.", label: "Îngrijirea", copy: "Apa, aburul și produsele potrivite pregătesc scalpul pentru relaxare.", src: "/videos/head-spa-waterfall.mp4", video: true },
-  { title: "Masaj, abur și momente de relaxare.", label: "Relaxarea", copy: "Mâinile, căldura și apa transformă îngrijirea într-o pauză adevărată.", src: "/videos/freya-massage.mp4", video: true },
-  { title: "Părul este hidratat, spălat și uscat.", label: "Finalul", copy: "Totul se așază în ritmul tău, cu atenție până la ultimul detaliu.", src: "/images/freya-paturi-abur.jpeg", video: false },
-  { title: "Pleci mai relaxată decât ai venit.", label: "Pauza rămâne", copy: "Cu scalpul îngrijit, părul proaspăt și mai mult spațiu pentru tine.", src: "/images/head-spa-waterfall-wide.jpeg", video: false },
+  { title: "Te așezi și uiți de grabă.", label: "Sosirea", copy: "Începe cu un moment în care lași ritmul de afară la ușă.", src: "/images/freya-ritual.jpeg", poster: "/images/freya-ritual.jpeg", video: false },
+  { title: "Descoperim ce are nevoie scalpul și părul tău.", label: "Alegerea", copy: "Privim împreună de ce are nevoie părul tău, fără grabă.", src: "/images/head-spa-waterfall-detail.jpeg", poster: "/images/head-spa-waterfall-detail.jpeg", video: false },
+  { title: "Începe ritualul de curățare și îngrijire.", label: "Îngrijirea", copy: "Apa, aburul și produsele potrivite pregătesc scalpul pentru relaxare.", src: "/videos/head-spa-waterfall.mp4", poster: "/images/head-spa-waterfall-detail.jpeg", video: true },
+  { title: "Masaj, abur și momente de relaxare.", label: "Relaxarea", copy: "Mâinile, căldura și apa transformă îngrijirea într-o pauză adevărată.", src: "/videos/freya-massage.mp4", poster: "/images/freya-ritual.jpeg", video: true },
+  { title: "Părul este hidratat, spălat și uscat.", label: "Finalul", copy: "Totul se așază în ritmul tău, cu atenție până la ultimul detaliu.", src: "/images/freya-paturi-abur.jpeg", poster: "/images/freya-paturi-abur.jpeg", video: false },
+  { title: "Pleci mai relaxată decât ai venit.", label: "Pauza rămâne", copy: "Cu scalpul îngrijit, părul proaspăt și mai mult spațiu pentru tine.", src: "/images/head-spa-waterfall-wide.jpeg", poster: "/images/head-spa-waterfall-wide.jpeg", video: false },
 ] as const;
 const faqs = [
   ["Ce este Head Spa?", "Un ritual care combină îngrijirea scalpului și părului cu tehnici de masaj, hidratare și relaxare."],
@@ -54,7 +54,7 @@ function ExperienceSequence() {
     <div className="experience-copy experience-title"><p className="eyebrow">DINCOLO DE GRABĂ</p><h2>Cum arată o<br /><em>experiență Freya</em></h2><p>Derulează prin ritual, pas cu pas.</p></div>
     <div className="experience-steps">
       {experienceMoments.map((item, index) => <article className="experience-step" key={item.title}>
-        <div className="experience-step-media">{item.video ? <video src={item.src} muted loop playsInline preload="metadata" aria-label={item.title} /> : <img src={item.src} alt={item.title} loading="lazy" />}</div>
+        <div className="experience-step-media">{item.video ? <video src={item.src} poster={item.poster} muted loop playsInline preload="none" aria-label={item.title} /> : <img src={item.src} alt={item.title} loading="lazy" />}</div>
         <div className="experience-step-copy"><span>{String(index + 1).padStart(2, "0")} / {String(experienceMoments.length).padStart(2, "0")}</span><p className="experience-step-label">{item.label}</p><h3>{item.title}</h3><p>{item.copy}</p></div>
       </article>)}
     </div>
